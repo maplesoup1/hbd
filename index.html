@@ -298,6 +298,21 @@
         }
 
         /* ===== 落款页 ===== */
+        .photo-frame {
+            width: 150px;
+            height: 180px;
+            border: 2px solid var(--gold-primary);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(249,212,35,0.15);
+            margin-bottom: 18px;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
         .signature-wrap { text-align: center; }
         .big-wish {
             font-size: 38px;
@@ -515,6 +530,9 @@
 
             <!-- 第三页：落款 -->
             <div class="page hidden" id="page-signature">
+                <div class="photo-frame">
+                    <img src="hpd.jpg" alt="合照">
+                </div>
                 <div class="signature-wrap">
                     <div class="big-wish">寿比南山<br>福如东海</div>
                     <div class="divider">༻ ❁ ༺</div>
