@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>恭祝阿爷八十七岁寿辰</title>
     <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <style>
@@ -10,198 +10,471 @@
             --china-red: #B31B1B;
             --gold-primary: #f9d423;
             --gold-gradient: linear-gradient(145deg, #fff2a8, #f9d423, #b8860b);
-            --paper-color: #fef9eb;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
 
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'STKaiti', '华文楷体', 'KaiTi', '楷体', serif;
-            background: #4a0404; /* 深红色背景，增加高级感 */
+            background: #4a0404;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 全局动态金箔粒子背景 */
-        #particles-js {
-            position: absolute;
-            width: 100%;
+        /* ===== 祥云背景层 ===== */
+        .cloud-layer {
+            position: fixed;
+            width: 200%;
             height: 100%;
+            top: 0; left: 0;
+            z-index: 0;
+            opacity: 0.07;
+            pointer-events: none;
+            will-change: transform;
+            animation: cloudDrift 80s linear infinite;
+        }
+        .cloud-layer.layer2 {
+            opacity: 0.04;
+            animation: cloudDrift2 100s linear infinite;
+            top: 30%;
+        }
+        @keyframes cloudDrift {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        @keyframes cloudDrift2 {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+        }
+
+        /* ===== 粒子 ===== */
+        #particles-js {
+            position: fixed;
+            width: 100%; height: 100%;
             z-index: 1;
         }
 
-        /* 贺卡主体容器 */
+        /* ===== 舞台 ===== */
         .stage {
             position: relative;
-            width: 90%;
-            max-width: 450px;
-            height: 80vh;
-            min-height: 600px;
-            perspective: 1200px;
+            width: 92%;
+            max-width: 420px;
+            height: 85vh;
+            max-height: 700px;
             z-index: 2;
         }
 
         .card-frame {
             position: relative;
-            width: 100%;
-            height: 100%;
-            margin: 0 auto;
+            width: 100%; height: 100%;
             background: var(--china-red);
-            border: 4px solid var(--gold-primary);
+            border: 3px solid var(--gold-primary);
             border-radius: 4px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
             overflow: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z' fill='%23700b0b' fill-opacity='0.12'/%3E%3C/svg%3E");
+        }
+
+        /* ===== 金边呼吸光效 ===== */
+        .gold-border-glow {
+            position: absolute;
+            inset: -3px;
+            border: 3px solid transparent;
+            border-radius: 6px;
+            z-index: 50;
+            pointer-events: none;
+            animation: borderBreathe 3s ease-in-out infinite alternate;
+        }
+        @keyframes borderBreathe {
+            0% { border-color: rgba(249,212,35,0.3); box-shadow: inset 0 0 15px rgba(249,212,35,0.05), 0 0 8px rgba(249,212,35,0.15); }
+            100% { border-color: rgba(249,212,35,0.8); box-shadow: inset 0 0 25px rgba(249,212,35,0.1), 0 0 20px rgba(249,212,35,0.35); }
+        }
+
+        /* ===== 灯笼 ===== */
+        .lantern-container {
+            position: absolute;
+            top: -8px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 25px;
+            z-index: 30;
+        }
+        .lantern {
+            font-size: 42px;
+            transform-origin: top center;
+            will-change: transform;
+            animation: lanternSwing 3s ease-in-out infinite alternate;
+        }
+        .lantern:nth-child(2) { animation-delay: 1.5s; }
+        @keyframes lanternSwing {
+            0% { transform: rotate(-7deg); }
+            100% { transform: rotate(7deg); }
+        }
+
+        /* ===== 灯笼光影 ===== */
+        .lantern-glow {
+            position: absolute;
+            width: 100px; height: 160px;
+            top: 25px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(255,160,40,0.12) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+        .lantern-glow.left {
+            left: 10px;
+            animation: glowSwing 3s ease-in-out infinite alternate;
+        }
+        .lantern-glow.right {
+            right: 10px;
+            animation: glowSwing 3s ease-in-out infinite alternate 1.5s;
+        }
+        @keyframes glowSwing {
+            0% { transform: translateX(-6px); opacity: 0.5; }
+            100% { transform: translateX(6px); opacity: 1; }
+        }
+
+        /* ===== 寿字水印 ===== */
+        .watermark-shou {
+            position: absolute;
+            font-size: 260px;
+            color: rgba(249,212,35,0.05);
+            z-index: 0;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            user-select: none;
+            pointer-events: none;
+            font-family: 'Zhi Mang Xing', cursive;
+        }
+
+        /* ===== 角标 ===== */
+        .corner-border {
+            position: absolute;
+            width: 30px; height: 30px;
+            border: 2px solid var(--gold-primary);
+            z-index: 3;
+        }
+        .tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+        .tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+        .bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+        .br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+        /* ===== 翻页系统 ===== */
+        .page {
+            position: absolute;
+            inset: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* 宣纸纹理 */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 86c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm28-65c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm23 67c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23700b0b' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
-
-        /* 巨大的"寿"字背景水印 */
-        .watermark-shou {
-            position: absolute;
-            font-size: 320px;
-            color: rgba(249, 212, 35, 0.05);
-            z-index: 0;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            user-select: none;
-            font-family: 'Zhi Mang Xing', cursive, 'KaiTi';
-        }
-
-        /* 顶部灯笼与流苏 */
-        .lantern-container {
-            position: absolute;
-            top: -10px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 30px;
-            z-index: 5;
-        }
-        .lantern {
-            font-size: 50px;
-            animation: lanternSwing 3s infinite ease-in-out alternate;
-            transform-origin: top center;
-        }
-        .lantern-container .lantern:nth-child(2) {
-            animation-delay: 1.5s;
-        }
-        @keyframes lanternSwing {
-            0% { transform: rotate(-6deg); }
-            100% { transform: rotate(6deg); }
-        }
-
-        /* 封面区域 */
-        #cover {
-            text-align: center;
+            padding: 25px 24px;
+            will-change: opacity, transform;
+            transition: opacity 0.7s ease, transform 0.7s ease;
             z-index: 10;
-            transition: all 1s ease;
+        }
+        .page.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(30px);
+        }
+        .page.flip-out {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-30px);
         }
 
-        /* 印章按钮 */
-        .seal-btn {
-            width: 120px;
-            height: 120px;
-            background: var(--china-red);
-            border: 4px solid var(--gold-primary);
+        /* ===== 封面页 ===== */
+        .timeline-counter {
+            text-align: center;
+            margin-bottom: 20px;
             color: var(--gold-primary);
-            font-size: 50px;
-            font-family: 'Zhi Mang Xing', cursive, 'KaiTi';
+        }
+        .year-counter {
+            font-size: 44px;
+            font-family: 'Zhi Mang Xing', cursive;
+            color: var(--gold-primary);
+            display: inline-block;
+            min-width: 100px;
+        }
+        .timeline-highlight {
+            font-size: 24px;
+            font-family: 'Zhi Mang Xing', cursive;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 4px;
+        }
+
+        .seal-btn {
+            width: 100px; height: 100px;
+            background: var(--china-red);
+            border: 3px solid var(--gold-primary);
+            color: var(--gold-primary);
+            font-size: 44px;
+            font-family: 'Zhi Mang Xing', cursive;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 30px;
+            margin: 0 auto 20px;
             cursor: pointer;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
-            animation: sealBreathe 2s infinite alternate;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            animation: sealBreathe 2s ease-in-out infinite alternate;
+            -webkit-tap-highlight-color: transparent;
         }
         @keyframes sealBreathe {
-            from { transform: scale(1); box-shadow: 0 0 10px var(--gold-primary); }
-            to { transform: scale(1.05); box-shadow: 0 0 30px var(--gold-primary); }
+            from { transform: scale(1); box-shadow: 0 0 8px var(--gold-primary); }
+            to { transform: scale(1.05); box-shadow: 0 0 25px var(--gold-primary); }
         }
 
-        /* 静态鎏金文字效果（去除了闪光和强制换行问题） */
+        .cover-title {
+            color: var(--gold-primary);
+            letter-spacing: 3px;
+            font-weight: normal;
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .cover-hint {
+            color: rgba(255,242,168,0.6);
+            font-size: 15px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* ===== 鎏金文字 ===== */
         .gold-highlight {
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: bold;
-            display: inline; /* 确保它作为普通文字排列，不会错行 */
+            display: inline;
         }
 
-        /* 正文内容样式 */
-        #content {
-            display: none;
-            padding: 20px 30px;
-            text-align: left;
-            z-index: 10;
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
+        /* ===== 祝福页 ===== */
         .text-body {
-            font-size: 24px;
-            line-height: 1.8;
+            font-size: 20px;
+            line-height: 1.85;
             color: #fff2a8;
             text-indent: 2em;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            position: relative;
-            z-index: 2;
+            margin: 14px 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
-
-        .signature {
-            text-align: right;
-            font-size: 22px;
-            color: var(--gold-primary);
-            margin-top: 40px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* 装饰角标 */
-        .corner-border {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--gold-primary);
-            z-index: 3;
-        }
-        .tl { top: 15px; left: 15px; border-right: none; border-bottom: none; }
-        .tr { top: 15px; right: 15px; border-left: none; border-bottom: none; }
-        .bl { bottom: 15px; left: 15px; border-right: none; border-top: none; }
-        .br { bottom: 15px; right: 15px; border-left: none; border-top: none; }
-
-        /* 分隔线 */
         .divider {
             text-align: center;
             color: var(--gold-primary);
-            font-size: 20px;
+            font-size: 18px;
             letter-spacing: 5px;
-            margin: 15px 0;
-            opacity: 0.8;
+            margin: 12px 0;
+            opacity: 0.7;
         }
 
+        .page-turn-btn {
+            margin-top: 22px;
+            padding: 12px 36px;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            background: transparent;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            letter-spacing: 3px;
+            z-index: 20;
+            -webkit-tap-highlight-color: transparent;
+            border-radius: 2px;
+        }
+        .page-turn-btn:active {
+            background: rgba(249,212,35,0.12);
+        }
+
+        /* ===== 落款页 ===== */
+        .signature-wrap { text-align: center; }
+        .big-wish {
+            font-size: 38px;
+            font-family: 'Zhi Mang Xing', cursive;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+        .signature {
+            text-align: right;
+            font-size: 20px;
+            color: var(--gold-primary);
+            margin-top: 30px;
+            width: 100%;
+        }
+        .signature-date {
+            text-align: right;
+            font-size: 14px;
+            color: rgba(249,212,35,0.5);
+            margin-top: 6px;
+            width: 100%;
+        }
+
+        /* ===== 敬茶按钮 ===== */
+        .tea-btn {
+            display: none;
+            margin-top: 30px;
+            padding: 12px 26px;
+            border: 1px dashed var(--gold-primary);
+            background: transparent;
+            color: var(--gold-primary);
+            font-family: inherit;
+            font-size: 15px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            border-radius: 20px;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .tea-btn.show {
+            display: inline-block;
+        }
+        .tea-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .tea-btn:active {
+            background: rgba(249,212,35,0.1);
+        }
+
+        /* ===== 敬茶覆盖层 ===== */
+        .tea-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(74,4,4,0.93);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .tea-overlay.active {
+            display: flex;
+        }
+        .tea-overlay.visible {
+            opacity: 1;
+        }
+        .tea-cup {
+            font-size: 100px;
+            opacity: 0;
+            transform: translateY(50px) scale(0.8);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .tea-overlay.visible .tea-cup {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .tea-text {
+            font-size: 26px;
+            color: var(--gold-primary);
+            font-family: 'Zhi Mang Xing', cursive;
+            letter-spacing: 5px;
+            margin-top: 16px;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.6s;
+        }
+        .tea-text.sub {
+            font-size: 18px;
+            transition-delay: 1s;
+        }
+        .tea-overlay.visible .tea-text {
+            opacity: 1;
+        }
+        .tea-dismiss {
+            margin-top: 35px;
+            color: rgba(249,212,35,0.4);
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            opacity: 0;
+            transition: opacity 0.6s ease 1.6s;
+            -webkit-tap-highlight-color: transparent;
+            padding: 10px 20px;
+        }
+        .tea-overlay.visible .tea-dismiss {
+            opacity: 1;
+        }
+
+        /* ===== 飘落玫瑰层 ===== */
+        .petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            will-change: transform, opacity;
+            animation: petalFall linear infinite;
+        }
+        @keyframes petalFall {
+            0%   { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
+            10%  { opacity: 0.6; }
+            90%  { opacity: 0.5; }
+            100% { transform: translateY(calc(100vh + 20px)) translateX(40px) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== 小屏适配 ===== */
+        @media (max-height: 600px) {
+            .stage { height: 90vh; }
+            .watermark-shou { font-size: 200px; }
+            .year-counter { font-size: 36px; }
+            .seal-btn { width: 80px; height: 80px; font-size: 36px; }
+            .text-body { font-size: 17px; margin: 10px 0; }
+            .big-wish { font-size: 30px; }
+            .page { padding: 20px 18px; }
+        }
+        @media (max-width: 360px) {
+            .page { padding: 20px 16px; }
+            .text-body { font-size: 18px; }
+            .cover-title { font-size: 16px; }
+            .big-wish { font-size: 32px; }
+        }
     </style>
 </head>
 <body>
 
     <audio id="bgm" src="zhushouge.m4a" loop preload="auto"></audio>
 
+    <!-- 祥云 -->
+    <svg class="cloud-layer" viewBox="0 0 2000 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <path id="cloud" d="M0,40 Q20,0 40,20 Q50,5 70,20 Q90,0 100,20 Q120,5 140,25 Q150,10 160,30 Q170,20 180,40 Q160,55 140,50 Q120,60 100,50 Q80,60 60,50 Q40,55 20,50 Z" fill="#f9d423"/>
+        </defs>
+        <use href="#cloud" x="50" y="80" transform="scale(1.5)" opacity="0.5"/>
+        <use href="#cloud" x="400" y="150" transform="scale(2)" opacity="0.35"/>
+        <use href="#cloud" x="700" y="60" transform="scale(1.2)" opacity="0.6"/>
+        <use href="#cloud" x="1000" y="200" transform="scale(1.8)" opacity="0.3"/>
+        <use href="#cloud" x="1300" y="100" transform="scale(1.5)" opacity="0.45"/>
+        <use href="#cloud" x="1600" y="180" transform="scale(1.3)" opacity="0.35"/>
+    </svg>
+    <svg class="cloud-layer layer2" viewBox="0 0 2000 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <use href="#cloud" x="200" y="100" transform="scale(2.2)" opacity="0.4"/>
+        <use href="#cloud" x="800" y="200" transform="scale(1.6)" opacity="0.35"/>
+        <use href="#cloud" x="1400" y="80" transform="scale(1.9)" opacity="0.3"/>
+    </svg>
+
     <div id="particles-js"></div>
 
     <div class="stage">
         <div class="card-frame">
+            <div class="gold-border-glow"></div>
             <div class="corner-border tl"></div>
             <div class="corner-border tr"></div>
             <div class="corner-border bl"></div>
@@ -211,88 +484,195 @@
                 <div class="lantern">🏮</div>
                 <div class="lantern">🏮</div>
             </div>
+            <div class="lantern-glow left"></div>
+            <div class="lantern-glow right"></div>
 
             <div class="watermark-shou">寿</div>
 
-            <div id="cover">
-                <div class="seal-btn" onclick="openScroll()">啟</div>
-                <h2 style="color: var(--gold-primary); letter-spacing: 4px; font-weight: normal; margin-top: 30px;">阿爷八十七岁寿诞贺礼</h2>
-                <p style="color: rgba(255,242,168,0.7); font-size: 18px; margin-top: 10px;">( 點擊啟封 )</p>
+            <!-- 第一页：封面 -->
+            <div class="page" id="page-cover">
+                <div class="timeline-counter">
+                    <div><span id="year-display" class="year-counter">1939</span></div>
+                    <div class="timeline-highlight" id="timeline-text" style="opacity:0;">八十七载春秋</div>
+                </div>
+                <div class="seal-btn" onclick="openCard()">啟</div>
+                <h2 class="cover-title">阿爷八十七岁寿诞贺礼</h2>
+                <p class="cover-hint">( 點擊啟封 )</p>
             </div>
 
-            <div id="content">
+            <!-- 第二页：祝福 -->
+            <div class="page hidden" id="page-blessing">
                 <div class="divider">༻ ❁ ༺</div>
-
-                <h1 style="text-align: center; color: var(--gold-primary); font-size: 40px; margin: 10px 0;">
+                <h1 style="text-align:center; color:var(--gold-primary); font-size:34px; margin:8px 0;">
                     <span class="gold-highlight">恭贺大寿</span>
                 </h1>
-
-                <p class="text-body" style="text-indent: 0;">敬爱的阿爷：</p>
+                <p class="text-body" style="text-indent:0;">阿爷：</p>
                 <p class="text-body">恭祝您八十七岁大寿！祝您老人家<span class="gold-highlight">福星高照，松柏长青</span>！</p>
                 <p class="text-body">最紧要系身体健康，日日都开心，食得好、瞓得好，添福添寿，万事胜意！</p>
-                
-                <div class="signature">
-                    <p style="margin: 0;">孙仔 晓枫 敬贺</p>
-                </div>
+                <div class="divider" style="margin-top:16px;">༻ ❁ ༺</div>
+                <button class="page-turn-btn" onclick="goToPage(3)">翻 页 →</button>
+            </div>
 
-                <div class="divider" style="margin-top: 30px;">༻ ❁ ༺</div>
+            <!-- 第三页：落款 -->
+            <div class="page hidden" id="page-signature">
+                <div class="signature-wrap">
+                    <div class="big-wish">寿比南山<br>福如东海</div>
+                    <div class="divider">༻ ❁ ༺</div>
+                    <div class="signature"><p>孙仔 晓枫 敬贺</p></div>
+                    <div class="signature-date"><p>二〇二六年 岁次丙午</p></div>
+                </div>
+                <button class="tea-btn" id="teaBtn" onclick="showTea()">再敬一杯 🍵</button>
+                <button class="page-turn-btn" style="margin-top:16px; font-size:14px; padding:8px 24px; opacity:0.6;" onclick="goToPage(1)">← 回到封面</button>
             </div>
         </div>
     </div>
 
+    <!-- 敬茶彩蛋 -->
+    <div class="tea-overlay" id="teaOverlay" onclick="closeTea()">
+        <div class="tea-cup">🍵</div>
+        <div class="tea-text">敬阿爷一杯清茶</div>
+        <div class="tea-text sub">福寿安康 万事如意</div>
+        <button class="tea-dismiss">轻触返回</button>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // 初始化金箔粒子效果
-        if(window.particlesJS) {
+        // 粒子（手机减少数量）
+        if (window.particlesJS) {
+            var isMobile = window.innerWidth < 600;
             particlesJS("particles-js", {
-                "particles": {
-                    "number": { "value": 30 },
-                    "color": { "value": "#f9d423" },
-                    "shape": { "type": "polygon" },
-                    "opacity": { "value": 0.6, "random": true },
-                    "size": { "value": 5, "random": true },
-                    "line_linked": { "enable": false },
-                    "move": {
-                        "enable": true,
-                        "speed": 1.5,
-                        "direction": "bottom",
-                        "random": true,
-                        "straight": false,
-                        "out_mode": "out"
+                particles: {
+                    number: { value: isMobile ? 15 : 30 },
+                    color: { value: "#f9d423" },
+                    shape: { type: "polygon" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 4, random: true },
+                    line_linked: { enable: false },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "bottom",
+                        random: true,
+                        straight: false,
+                        out_mode: "out"
                     }
                 }
             });
         }
 
-        // 贺卡打开动画
-        function openScroll() {
-            // 获取音频并播放
-            const bgm = document.getElementById('bgm');
-            if (bgm) {
-                bgm.play().catch(function(error) {
-                    console.log("音频播放失败:", error);
+        // 年份滚动
+        var yearAnimDone = false;
+        function animateYears() {
+            var el = document.getElementById('year-display');
+            var textEl = document.getElementById('timeline-text');
+            var start = 1939, end = 2026, duration = 2500;
+            var startTime = performance.now();
+
+            function tick(now) {
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(start + (end - start) * eased);
+
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                } else {
+                    el.textContent = '1939 → 2026';
+                    el.style.fontSize = '28px';
+                    textEl.style.transition = 'opacity 0.8s ease';
+                    textEl.style.opacity = '1';
+                    yearAnimDone = true;
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+        setTimeout(animateYears, 600);
+
+        // 页码状态
+        var currentPage = 1;
+
+        function openCard() {
+            if (!yearAnimDone) return;
+            var bgm = document.getElementById('bgm');
+            if (bgm) bgm.play().catch(function(){});
+            goToPage(2);
+        }
+
+        function goToPage(pageNum) {
+            var pages = {
+                1: document.getElementById('page-cover'),
+                2: document.getElementById('page-blessing'),
+                3: document.getElementById('page-signature')
+            };
+
+            // 当前页滑出
+            var cur = pages[currentPage];
+            if (cur) {
+                cur.classList.add('flip-out');
+            }
+            currentPage = pageNum;
+            var target = pages[pageNum];
+
+            // 等当前页动画完成
+            setTimeout(function() {
+                // 隐藏所有页
+                for (var k in pages) {
+                    pages[k].classList.add('hidden');
+                    pages[k].classList.remove('flip-out');
+                }
+                // 强制浏览器应用 hidden 状态
+                void target.offsetWidth;
+                // 下一帧显示目标页
+                requestAnimationFrame(function() {
+                    target.classList.remove('hidden');
+                    // 第三页：延迟显示茶杯按钮
+                    if (pageNum === 3) {
+                        var btn = document.getElementById('teaBtn');
+                        btn.classList.add('show');
+                        setTimeout(function() {
+                            btn.classList.add('visible');
+                        }, 100);
+                    }
                 });
+            }, 700);
+        }
+
+        // 敬茶
+        function showTea() {
+            var overlay = document.getElementById('teaOverlay');
+            overlay.classList.add('active');
+            requestAnimationFrame(function() {
+                overlay.classList.add('visible');
+            });
+        }
+        function closeTea() {
+            var overlay = document.getElementById('teaOverlay');
+            overlay.classList.remove('visible');
+            setTimeout(function() {
+                overlay.classList.remove('active');
+            }, 600);
+        }
+        // 布满飘落玫瑰 🌹
+        (function() {
+            var max = window.innerWidth < 600 ? 16 : 24;
+
+            function spawn() {
+                if (document.querySelectorAll('.petal').length >= max) return;
+                var el = document.createElement('div');
+                el.className = 'petal';
+                el.textContent = '🌹';
+                el.style.left = (Math.random() * 94 + 3) + '%';
+                el.style.fontSize = (14 + Math.random() * 12) + 'px';
+                var dur = 5 + Math.random() * 5;
+                el.style.animationDuration = dur + 's';
+                el.style.animationDelay = (Math.random() * 1.5) + 's';
+                document.body.appendChild(el);
+                setTimeout(function() { el.remove(); }, (dur + 2) * 1000);
             }
 
-            const cover = document.getElementById('cover');
-            const content = document.getElementById('content');
-            
-            // 封面消失动画：放大并淡出
-            cover.style.opacity = '0';
-            cover.style.transform = 'scale(1.2) translateY(-20px)';
-            
-            setTimeout(() => {
-                cover.style.display = 'none';
-                content.style.display = 'block';
-                
-                // 内容出现动画：稍微延迟后放大显现
-                setTimeout(() => {
-                    content.style.opacity = '1';
-                    content.style.transform = 'scale(1) translateY(0)';
-                    content.style.transition = 'all 1.2s cubic-bezier(0.23, 1, 0.32, 1)';
-                }, 50);
-            }, 800);
-        }
+            setInterval(spawn, 600);
+            for (var i = 0; i < 10; i++) setTimeout(spawn, i * 200);
+        })();
     </script>
 </body>
 </html>
