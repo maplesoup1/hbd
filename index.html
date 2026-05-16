@@ -194,6 +194,42 @@
             transform: translateX(-30px);
         }
 
+        /* ===== 页面背景 banner ===== */
+        .page-bg-banner {
+            position: absolute;
+            left: 0; right: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .page-bg-banner img {
+            width: 100%;
+            display: block;
+        }
+        /* 封面页：寿星公在底部 */
+        .banner-bottom {
+            bottom: 0;
+            opacity: 0.18;
+        }
+        .banner-bottom::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 50%;
+            background: linear-gradient(to bottom, var(--china-red), transparent);
+        }
+        /* 祝福页：桃花在顶部 */
+        .banner-top {
+            top: 0;
+            opacity: 0.15;
+        }
+        .banner-top::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 50%;
+            background: linear-gradient(to top, var(--china-red), transparent);
+        }
+
         /* ===== 封面页 ===== */
         .timeline-counter {
             text-align: center;
@@ -506,6 +542,7 @@
 
             <!-- 第一页：封面 -->
             <div class="page" id="page-cover">
+                <div class="page-bg-banner banner-bottom"><img src="bdgod.png" alt=""></div>
                 <div class="timeline-counter">
                     <div><span id="year-display" class="year-counter">1939</span></div>
                     <div class="timeline-highlight" id="timeline-text" style="opacity:0;">八十七载春秋</div>
@@ -517,6 +554,7 @@
 
             <!-- 第二页：祝福 -->
             <div class="page hidden" id="page-blessing">
+                <div class="page-bg-banner banner-top"><img src="flower.png" alt=""></div>
                 <div class="divider">༻ ❁ ༺</div>
                 <h1 style="text-align:center; color:var(--gold-primary); font-size:34px; margin:8px 0;">
                     <span class="gold-highlight">恭贺大寿</span>
@@ -530,6 +568,7 @@
 
             <!-- 第三页：落款 -->
             <div class="page hidden" id="page-signature">
+                <div class="page-bg-banner banner-bottom"><img src="peach.png" alt=""></div>
                 <div class="photo-frame">
                     <img src="hpd.jpg" alt="合照">
                 </div>
