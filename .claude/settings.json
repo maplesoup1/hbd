@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(open index.html)"
+      "Bash(open index.html)",
+      "Bash(python3 -c \"from PIL import Image; print\\('PIL ok'\\)\")"
+    ],
+    "additionalDirectories": [
+      "/Users/xtom/Downloads/A2/hpbd"
     ]
   }
 }
